@@ -44,10 +44,7 @@ public class ListaDeCompra {
             for (int i = 0; i < produtoList.size(); i++) {
                 Produto produto = produtoList.get(i);
                 String compradoStr = produto.isComprado() ? "Comprado" : "Não comprado";
-                System.out.println((i + 1) + ". " + produto.getNome() + " - " +
-                        (produto.getQuantidade() > 0 ? produto.getQuantidade() + " " : "") +
-                        (produto.getPreco() > 0 ? "R$ " + produto.getPreco() : "") +
-                        " - " + compradoStr);
+                System.out.println(STR."\{i + 1}. \{produto.getNome()} - \{produto.getQuantidade() > 0 ? produto.getQuantidade() + " " : ""}\{produto.getPreco() > 0 ? "R$ " + produto.getPreco() : ""} - \{compradoStr}");
             }
 
             System.out.println("----------------------------------");
@@ -56,19 +53,31 @@ public class ListaDeCompra {
 
         }
     }
-    
+    public void removerProduto() {
+        Scanner sc = new Scanner (System.in);
+
+        System.out.println("Digite o índice do produto que deseja remover:");
+        int indice = sc.nextInt();
+
+        if (indice >= 0 && indice < produtoList.size()) {
+            produtoList.remove(indice);
+            System.out.println("Produto removido com sucesso!");
+        } else {
+            System.out.println("Índice inválido. Tente novamente.");
+        }
+    }
 
 
     public void rodarPrograma() {
         
 
         do { // Verifica se o usuário deseja continuar
-            Scanner scanner = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
 
             System.out.println("Qual Operação deseja fazer?");
             System.out.println("1. Adicionar Item");
             System.out.println("2. Exibir Itens");
-            int opcao = scanner.nextInt();
+            int opcao = sc.nextInt();
 
             switch (opcao) {
                 case 1:
@@ -84,7 +93,7 @@ public class ListaDeCompra {
             }
 
             System.out.println("Deseja Sair? 1 para continuar ou 0 para sair");
-            int p = scanner.nextInt();
+            int p = sc.nextInt();
 
             i = p;
 
