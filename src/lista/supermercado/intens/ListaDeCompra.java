@@ -43,8 +43,13 @@ public class ListaDeCompra {
 
             for (int i = 0; i < produtoList.size(); i++) {
                 Produto produto = produtoList.get(i);
-                String compradoStr = produto.isComprado() ? "Comprado" : "Não comprado";
-                System.out.println(STR."\{i + 1}. \{produto.getNome()} - \{produto.getQuantidade() > 0 ? produto.getQuantidade() + " " : ""}\{produto.getPreco() > 0 ? "R$ " + produto.getPreco() : ""} - \{compradoStr}");
+                if (produto != null) { // Check if 'produto' is not null
+                    String compradoStr = produto.isComprado() ? "Comprado" : "Não comprado";
+                    System.out.println((i + 1) + ". " + produto.getNome() + " - " +
+                                    (produto.getQuantidade() > 0 ? produto.getQuantidade() + " " : "") +
+                                    (produto.getPreco() > 0 ? "R$ " + produto.getPreco() : "") +
+                                    " - " + compradoStr);
+                }
             }
 
             System.out.println("----------------------------------");
@@ -54,19 +59,29 @@ public class ListaDeCompra {
         }
     }
     public void removerProduto() {
-        Scanner sc = new Scanner (System.in);
-
-        System.out.println("Digite o índice do produto que deseja remover:");
-        int indice = sc.nextInt();
-
-        if (indice >= 0 && indice < produtoList.size()) {
-            produtoList.remove(indice);
-            System.out.println("Produto removido com sucesso!");
-        } else {
-            System.out.println("Índice inválido. Tente novamente.");
+        Scanner sc = new Scanner(System.in);
+        
+        
+            System.out.println("Digite o índice do produto que deseja remover (entre 0 e " + (produtoList.size() - 1) + "):");
+            int indice = sc.nextInt();
+        
+            // Valide o índice antes de remover
+            if (indice >= 0 && indice < produtoList.size()) {
+                produtoList.remove(indice);
+                System.out.println("Produto removido com sucesso!");
+            } else {
+                System.out.println("Índice inválido. Tente novamente.");
+            }
         }
-    }
-
+    public void alterarStatusProduto(int indice) {
+            if (indice >= 0 && indice < produtoList.size()) {
+                Produto produto = produtoList.get(indice);
+                produto.setComprado(!produto.isComprado());
+                System.out.println("Status do produto \"" + produto.getNome() + "\" alterado com sucesso!");
+            } else {
+                System.out.println("Índice inválido. Tente novamente.");
+            }
+        }
 
     public void rodarPrograma() {
         
@@ -77,6 +92,8 @@ public class ListaDeCompra {
             System.out.println("Qual Operação deseja fazer?");
             System.out.println("1. Adicionar Item");
             System.out.println("2. Exibir Itens");
+            System.out.println("3. Remover Itens");
+            System.out.println("4.marcar como comprado ou não");
             int opcao = sc.nextInt();
 
             switch (opcao) {
@@ -86,6 +103,13 @@ public class ListaDeCompra {
 
                 case 2:
                     exibirProdutos();
+                    break;
+                case 3:
+                    removerProduto();
+                case 4:
+                    System.out.println("Digite o índice do produto que deseja alterar o status (entre 0 e " + (produtoList.size() - 1) + "):");
+                    int indiceStatus = sc.nextInt();
+                    alterarStatusProduto(indiceStatus);
                     break;
 
                 default:
